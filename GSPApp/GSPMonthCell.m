@@ -58,6 +58,7 @@
 -(void)initializeCellContentsFor:(NSInteger)dayOfMonth andWith:(NSInteger)numberOfEvents
 {
     //FIXME: Not receiving all of the days currently. Not this function's fault
+    self.dayOfMonth = dayOfMonth;
     if (dayOfMonth > 0)
     {
         NSString *dayString = [NSString stringWithFormat:@"%i", dayOfMonth];
@@ -68,8 +69,7 @@
         [self.contentView addSubview:daylabel];
         [self drawEvents:numberOfEvents];
     }
-    else
-    {
+    else {
         self.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.3];
     }
 }

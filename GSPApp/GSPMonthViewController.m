@@ -69,7 +69,7 @@
  */
 -(void)setupEvent
 {
-    NSLog(@"Setup event called");
+//    NSLog(@"Setup event called");
     self.eventForm = [[UIViewController alloc] init];
     [self setupEventForm:self.eventForm];
     [self.navigationController pushViewController:self.eventForm animated:YES];
@@ -127,7 +127,6 @@
 -(void)returnToCalendar
 {
     NSLog(@"return to calendar called");
-
 }
 
 -(CGRect)getScreenBounds
@@ -137,7 +136,6 @@
 
 /*
     Creates the text fields which should all have an identical styling, only different screen locations
- 
  */
 -(UITextField *)createTextField:(CGRect)frame withPlaceholder:(NSString *)placeholder
 {

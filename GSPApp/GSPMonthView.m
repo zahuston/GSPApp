@@ -10,13 +10,14 @@
 #import "GSPMonthCell.h"
 #import "GSPMonthViewController.h"
 
+#define DAYS_PER_WEEK 7
+
 @interface GSPMonthView()
 @property (nonatomic) int numRows;
 @property (nonatomic) NSRange daysInMonth;
 @property (strong, nonatomic) NSArray *monthNames; // I don't want to touch date formatter
+@property (nonatomic) NSNumber *offset;
 @property BOOL formatted;
-
-
 @end
 
 @implementation GSPMonthView
@@ -100,22 +101,32 @@
 {
     if (!_numRows)
     {
-        _numRows =  (self.daysInMonth.length / 7) + (self.daysInMonth.length % 7 != 0);
+        _numRows =  (self.daysInMonth.length / DAYS_PER_WEEK) + (self.daysInMonth.length % DAYS_PER_WEEK != 0);
     }
     return _numRows;
 }
 
 -(int)adjustCollectionViewIndexToDate:(int)collectionViewIndex
 {
-    if (self.numRows > self.daysInMonth.length / 7) //i.e. certain days need to be greyed out
+    if (self.numRows > self.daysInMonth.length / DAYS_PER_WEEK) //i.e. certain days need to be greyed out
     {
         NSDateComponents *startComponents = [self.relevantCalendar components:NSWeekdayCalendarUnit  fromDate:[self.relevantDate startOfMonth]];
         int distanceFromStart = [startComponents weekday] - 2; //Why does -2 work..
-        if (collectionViewIndex - distanceFromStart > self.daysInMonth.length)
+        if (!self.offset) {
+            self.offset = [[NSNumber alloc] initWithInt:distanceFromStart];
+        }
+        if (collectionViewIndex - distanceFromStart > self.daysInMonth.length) {
             return -1;
+        }
         return (collectionViewIndex - distanceFromStart);
     }
     else return collectionViewIndex;
+}
+
+-(int)adjustDateToCollectionViewIndex:(int)day
+{
+    assert(self.offset);
+    return day + [self.offset intValue];
 }
 
 -(void)updateEvents:(NSDate *)updatedDate
@@ -126,15 +137,23 @@
     
     
     // 2) Update the cell accordingly
-    
+    NSLog(@"Something %d", cell.dayOfMonth);
+    [cell class];
 }
 
+/*
+ * Retreives a cell which corresponds to the date passed in
+ */
 -(GSPMonthCell *)getCellForDate:(NSDate*)date
 {
     NSDateComponents *components = [self.relevantCalendar components:NSDayCalendarUnit fromDate:[date startOfMonth] toDate:date options:0];
-    NSIndexPath *cellPath = [[NSIndexPath alloc] initWithIndex:components.day];
-    return (GSPMonthCell *)[self collectionView:self cellForItemAtIndexPath:cellPath];
-}   
+    
+    // Only one section in the collection view (self) so date corresponds to the second tier
+    NSUInteger indices[2] = {0, (unsigned int)[self adjustDateToCollectionViewIndex:components.day]};
+    NSIndexPath *cellPath = [[NSIndexPath alloc] initWithIndexes:indices length:2];
+    GSPMonthCell *toReturn = (GSPMonthCell *)[self collectionView:self cellForItemAtIndexPath:cellPath];
+    return toReturn;
+}
 
 #pragma mark - Data source
 /*
@@ -143,7 +162,7 @@
 */
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.numRows * 7;
+    return self.numRows * DAYS_PER_WEEK;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
