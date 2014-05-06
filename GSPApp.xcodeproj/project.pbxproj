@@ -12,7 +12,6 @@
 		E397A4AD19193E120073CF03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E397A4AC19193E120073CF03 /* UIKit.framework */; };
 		E397A4B319193E120073CF03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E397A4B119193E120073CF03 /* InfoPlist.strings */; };
 		E397A4B519193E120073CF03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4B419193E120073CF03 /* main.m */; };
-		E397A4C219193E120073CF03 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4C119193E120073CF03 /* ViewController.m */; };
 		E397A4C419193E120073CF03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E397A4C319193E120073CF03 /* Images.xcassets */; };
 		E397A4CB19193E130073CF03 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E397A4CA19193E130073CF03 /* XCTest.framework */; };
 		E397A4CC19193E130073CF03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E397A4A819193E120073CF03 /* Foundation.framework */; };
@@ -53,8 +52,6 @@
 		E397A4B219193E120073CF03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E397A4B419193E120073CF03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E397A4B619193E120073CF03 /* GSPApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GSPApp-Prefix.pch"; sourceTree = "<group>"; };
-		E397A4C019193E120073CF03 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E397A4C119193E120073CF03 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E397A4C319193E120073CF03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E397A4C919193E130073CF03 /* GSPAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GSPAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E397A4CA19193E130073CF03 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -164,8 +161,6 @@
 				E397A4EF191941390073CF03 /* GSPDayViewController.m */,
 				E397A4F0191941390073CF03 /* GSPDayView.h */,
 				E397A4F1191941390073CF03 /* GSPDayView.m */,
-				E397A4C019193E120073CF03 /* ViewController.h */,
-				E397A4C119193E120073CF03 /* ViewController.m */,
 				E397A4C319193E120073CF03 /* Images.xcassets */,
 				E397A4AF19193E120073CF03 /* Supporting Files */,
 			);
@@ -309,7 +304,6 @@
 				E397A4F4191941390073CF03 /* GSPCustomTitleView.m in Sources */,
 				E397A4FA191941390073CF03 /* GSPDayView.m in Sources */,
 				E397A506191941440073CF03 /* Gradient.m in Sources */,
-				E397A4C219193E120073CF03 /* ViewController.m in Sources */,
 				E397A504191941440073CF03 /* UINavigationController+FrameLocations.m in Sources */,
 				E397A4F8191941390073CF03 /* GSPAppDelegate.m in Sources */,
 				E397A4F5191941390073CF03 /* GSPEvent.m in Sources */,
