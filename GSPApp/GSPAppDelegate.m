@@ -1,18 +1,23 @@
 //
-//  AppDelegate.m
-//  GSPApp
+//  GSPAppDelegate.m
+//  GSPEvents
 //
-//  Created by Zach Huston on 5/6/14.
-//  Copyright (c) 2014 Zach Huston. All rights reserved.
+//  Created by Zach Huston on 9/9/13.
+//  Copyright (c) 2013 Zach Huston. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "GSPAppDelegate.h"
+#import "GSPMonthViewController.h"
 
-@implementation AppDelegate
+@implementation GSPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[GSPMonthViewController alloc] init]];
+    navController.title = @"GSP Calendar";
+    self.window.rootViewController = navController;
     return YES;
 }
 							
