@@ -129,18 +129,6 @@
     return day + [self.offset intValue];
 }
 
--(void)updateEvents:(NSDate *)updatedDate
-{
-//    [self reloadData];
-    // 1) Find the cell to update
-    GSPMonthCell *cell = [self getCellForDate:updatedDate];
-    
-    
-    // 2) Update the cell accordingly
-    NSLog(@"Something %d", cell.dayOfMonth);
-    [cell class];
-}
-
 /*
  * Retreives a cell which corresponds to the date passed in
  */
@@ -151,11 +139,11 @@
     // Only one section in the collection view (self) so date corresponds to the second tier
     NSUInteger indices[2] = {0, (unsigned int)[self adjustDateToCollectionViewIndex:components.day]};
     NSIndexPath *cellPath = [[NSIndexPath alloc] initWithIndexes:indices length:2];
-    GSPMonthCell *toReturn = (GSPMonthCell *)[self collectionView:self cellForItemAtIndexPath:cellPath];
-    return toReturn;
+    return (GSPMonthCell *)[self collectionView:self cellForItemAtIndexPath:cellPath];
 }
 
 #pragma mark - Data source
+
 /*
     Returns the number of rows that should be present in collection view (i.e. num relevant weeks)
     Then multiplies it by 7. May want to make this more extensible
@@ -168,9 +156,10 @@
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Dequeing cell at index location: %d", indexPath.row);
     GSPMonthCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DayCell" forIndexPath:indexPath];
-    int offset = [self adjustCollectionViewIndexToDate:indexPath.row];
-    [cell initializeCellContentsFor:offset andWith:[self findNumEvents:self.relevantDate withOffset:offset]];
+    cell.dayOfMonth = [self adjustCollectionViewIndexToDate:indexPath.row];
+    [cell initializeCellContentsFor:cell.dayOfMonth andWith:[self findNumEvents:cell.dayOfMonth]];
     return cell;
 }
 
@@ -179,14 +168,13 @@
     Will start at 0 initially, hoping to load these from a server
     At some point down the road
  */
--(int)findNumEvents:(NSDate*)date withOffset:(int)offset
+-(int)findNumEvents:(int)day
 {
     NSDateComponents *startComponents = [self.relevantCalendar components:NSWeekdayCalendarUnit  fromDate:[self.relevantDate startOfMonth]];
-    [startComponents setDay:offset];
+    [startComponents setDay:day];
     NSDate *currentDay = [self.relevantCalendar dateFromComponents:startComponents];
     
-    NSArray *eventArray = [((GSPMonthViewController *)self.parentViewController).events objectForKey:[currentDay standardizedDate]];
-    return eventArray.count;
+    return [(GSPMonthViewController *)self.parentViewController eventCountForDate:currentDay];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

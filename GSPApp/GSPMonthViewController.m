@@ -150,7 +150,6 @@
 -(void)enterEvent
 {
     NSLog(@"enter event called");
-    
     //Construct a GSP Event Class
     GSPEvent *event = [[GSPEvent alloc] initWithTitle:self.eventName.text
                                           Description:self.eventDescription.text
@@ -158,8 +157,21 @@
                                                 Color:[UIColor blueColor]
                                                OfType:Informal];
     
-    [self.events setObject:event forKey:event.date];
-    [self.MonthView updateEvents:event.date];
+    [self mapEvent:event];
+    
+    NSDateComponents *eventDateComps = [[self.MonthView relevantCalendar] components:NSMonthCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit fromDate:event.date];
+    
+    // Only change if the current calendar on display matches the month/year the event was added
+    if (self.MonthView.relevantDateComponents.year == eventDateComps.year
+        && self.MonthView.relevantDateComponents.month == eventDateComps.month) {
+    
+        // Redraw cell
+        unsigned int indices[2] = {0, [self.MonthView adjustDateToCollectionViewIndex:eventDateComps.day]};
+        [self.MonthView reloadItemsAtIndexPaths:@[[[NSIndexPath alloc] initWithIndexes:indices length:2]]];
+        
+    }
+    
+    // Remove the event view controller, returning screen to month view
     [self.navigationController popViewControllerAnimated:NO];
 }
 
@@ -169,16 +181,34 @@
  */
 -(void)mapEvent:(GSPEvent *)event
 {
-
     NSDate *standardizedDate = [event.date standardizedDate];
     
     // Try to find an array if it existed previously.
-    NSMutableArray *tmp = [self.events objectForKey:standardizedDate];
-    if (!tmp) //Create it if it was not found
-    {
-        tmp = [[NSMutableArray alloc] init];
+    NSMutableArray *eventArr = [self.events objectForKey:standardizedDate];
+    
+    if (!eventArr) {
+        eventArr = [[NSMutableArray alloc] init];
     }
-    [self.events setObject:tmp forKey:standardizedDate];
+    [eventArr addObject:event];
+    [self.events setObject:eventArr forKey:standardizedDate];
+    
+}
+
+/*
+ * Takes in a date and returns the number of events on that day
+ */
+-(int)eventCountForDate:(NSDate *)date {
+    // Standardize date so key is always the same for a given day
+    NSDate *standardizedDate = [date standardizedDate];
+    
+    // Try to find an array if it existed previously.
+    NSMutableArray *eventArr = [self.events objectForKey:standardizedDate];
+    
+    if (!eventArr) {
+        return 0;
+    }
+    
+    return [eventArr count];
 }
 
 - (void)didReceiveMemoryWarning

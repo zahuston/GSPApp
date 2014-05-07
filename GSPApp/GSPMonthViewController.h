@@ -20,4 +20,7 @@
 @property (strong, nonatomic) UITextField *eventLocation;
 @property (strong, nonatomic) UIDatePicker *eventDate;
 @property (strong, nonatomic) UIViewController *eventForm;
+
+-(int)eventCountForDate:(NSDate *)date;
+
 @end

@@ -13,8 +13,6 @@
 
 @interface GSPMonthCell()
 
-@property int dayOfMonth;
-@property int eventsCount;
 @property bool initialized;
 
 @end
@@ -27,6 +25,7 @@
     if (self) {
         [self.contentView.layer setBorderColor:[UIColor blackColor].CGColor];
         [self.contentView.layer setBorderWidth:1.0f];
+        self.eventsCount = 0;
     }
     return self;
 }
@@ -57,7 +56,6 @@
 
 -(void)initializeCellContentsFor:(NSInteger)dayOfMonth andWith:(NSInteger)numberOfEvents
 {
-    //FIXME: Not receiving all of the days currently. Not this function's fault
     self.dayOfMonth = dayOfMonth;
     if (dayOfMonth > 0)
     {
@@ -67,29 +65,34 @@
         daylabel.font = [UIFont fontWithName:@"Helvetica" size:10.0f];
         daylabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:daylabel];
-        [self drawEvents:numberOfEvents];
+        self.eventsCount = numberOfEvents;
+        [self drawEvents];
     }
     else {
         self.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.3];
     }
 }
 
--(void)drawEvents:(int)numberOfEvents
+-(void)drawEvents
 {
     CGFloat startPoint = self.contentView.frame.size.width / 2;
-    if (numberOfEvents % 2) //odd
+    if (self.eventsCount % 2) //odd
     {
-        startPoint -= (EVENT_INDICATOR_SPACING) / 2 + (EVENT_INDICATOR_SIZE + EVENT_INDICATOR_SPACING) * numberOfEvents/2 - EVENT_INDICATOR_SPACING;
+        startPoint -= (EVENT_INDICATOR_SPACING) / 2 + (EVENT_INDICATOR_SIZE + EVENT_INDICATOR_SPACING) * self.eventsCount/2 - EVENT_INDICATOR_SPACING;
     } else {
         startPoint -= EVENT_INDICATOR_SPACING / 2 + EVENT_INDICATOR_SIZE / 2;
     }
-    for (int i = 0; i < MIN(4, numberOfEvents); i++)
+    for (int i = 0; i < MIN(4, self.eventsCount); i++)
     {
         UIView *eventSquare = [[UIView alloc] initWithFrame:CGRectMake(startPoint, self.contentView.frame.size.height - 12, EVENT_INDICATOR_SIZE, EVENT_INDICATOR_SIZE)];
         eventSquare.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:.4];
         [self.contentView addSubview:eventSquare];
         startPoint += EVENT_INDICATOR_SIZE + EVENT_INDICATOR_SPACING;
     }
+    if (self.eventsCount > 0) {
+        [self setNeedsDisplay]; [self.contentView setNeedsDisplay];
+    }
+
 }
 
 @end

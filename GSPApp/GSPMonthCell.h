@@ -14,6 +14,9 @@
 @interface GSPMonthCell : UICollectionViewCell
 
 -(void)initializeCellContentsFor:(NSInteger)dayOfMonth andWith:(NSInteger)numberOfEvents;
--(void)drawEvents:(int)numberOfEvents;
+-(void)drawEvents;
+
+@property int dayOfMonth;
+@property int eventsCount;
 
 @end
