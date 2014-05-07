@@ -45,10 +45,10 @@
 
 -(NSDate *) standardizedDate
 {
-    unsigned units = NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    unsigned units = NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit;
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [calendar components:units fromDate:self];
-    [components setSecond:0]; [components setMinute:0];
+    [components setSecond:0]; [components setMinute:0]; [components setHour:0];
     NSDate *standardizedDate = [calendar dateFromComponents:components];
     return standardizedDate;
 }

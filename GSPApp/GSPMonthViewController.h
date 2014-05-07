@@ -12,6 +12,8 @@
 #define FORM_PADDING 10
 #define FORM_HEIGHT 30
 
+#define GREYED_OUT -1
+
 @interface GSPMonthViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (strong, nonatomic) GSPMonthView *MonthView;
 

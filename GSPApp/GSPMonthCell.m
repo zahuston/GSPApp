@@ -59,14 +59,15 @@
     self.dayOfMonth = dayOfMonth;
     if (dayOfMonth > 0)
     {
+        self.eventsCount = numberOfEvents;
+        [self drawEvents];
         NSString *dayString = [NSString stringWithFormat:@"%i", dayOfMonth];
         UILabel *daylabel = [[UILabel alloc] initWithFrame:CGRectMake(2, -4, 20, 20)];
         daylabel.text = dayString;
         daylabel.font = [UIFont fontWithName:@"Helvetica" size:10.0f];
         daylabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:daylabel];
-        self.eventsCount = numberOfEvents;
-        [self drawEvents];
+
     }
     else {
         self.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.3];
@@ -75,13 +76,11 @@
 
 -(void)drawEvents
 {
-    CGFloat startPoint = self.contentView.frame.size.width / 2;
-    if (self.eventsCount % 2) //odd
-    {
-        startPoint -= (EVENT_INDICATOR_SPACING) / 2 + (EVENT_INDICATOR_SIZE + EVENT_INDICATOR_SPACING) * self.eventsCount/2 - EVENT_INDICATOR_SPACING;
-    } else {
-        startPoint -= EVENT_INDICATOR_SPACING / 2 + EVENT_INDICATOR_SIZE / 2;
-    }
+    CGFloat startPoint = self.contentView.frame.size.width / 2 + 4;
+    startPoint -= (EVENT_INDICATOR_SIZE / 2) + (EVENT_INDICATOR_SPACING + EVENT_INDICATOR_SIZE) * self.eventsCount / 2;
+    
+    [[self.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     for (int i = 0; i < MIN(4, self.eventsCount); i++)
     {
         UIView *eventSquare = [[UIView alloc] initWithFrame:CGRectMake(startPoint, self.contentView.frame.size.height - 12, EVENT_INDICATOR_SIZE, EVENT_INDICATOR_SIZE)];
@@ -89,6 +88,7 @@
         [self.contentView addSubview:eventSquare];
         startPoint += EVENT_INDICATOR_SIZE + EVENT_INDICATOR_SPACING;
     }
+    
     if (self.eventsCount > 0) {
         [self setNeedsDisplay]; [self.contentView setNeedsDisplay];
     }

@@ -136,7 +136,7 @@
             self.offset = [[NSNumber alloc] initWithInt:distanceFromStart];
         }
         if (collectionViewIndex - distanceFromStart > self.daysInMonth.length) {
-            return -1;
+            return GREYED_OUT;
         }
         return (collectionViewIndex - distanceFromStart);
     }
@@ -235,7 +235,6 @@
 
 -(void)enterEvent
 {
-    NSLog(@"enter event called");
     //Construct a GSP Event Class
     GSPEvent *event = [[GSPEvent alloc] initWithTitle:self.eventName.text
                                           Description:self.eventDescription.text
@@ -293,7 +292,7 @@
     if (!eventArr) {
         return 0;
     }
-    
+    NSLog(@"%@ has %d events", date, [eventArr count]);
     return [eventArr count];
 }
 
@@ -338,7 +337,11 @@
  */
 -(int)findNumEvents:(int)day
 {
-    NSDateComponents *startComponents = [self.relevantCalendar components:NSWeekdayCalendarUnit  fromDate:[self.relevantDate startOfMonth]];
+    if (day == GREYED_OUT) {
+        return 0;
+    }
+    unsigned units = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSDateComponents *startComponents = [self.relevantCalendar components:units  fromDate:[self.relevantDate startOfMonth]];
     [startComponents setDay:day];
     NSDate *currentDay = [self.relevantCalendar dateFromComponents:startComponents];
     
