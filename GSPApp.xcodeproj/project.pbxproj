@@ -22,7 +22,6 @@
 		E397A4F3191941390073CF03 /* GSPMonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4E3191941390073CF03 /* GSPMonthViewController.m */; };
 		E397A4F4191941390073CF03 /* GSPCustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4E5191941390073CF03 /* GSPCustomTitleView.m */; };
 		E397A4F5191941390073CF03 /* GSPEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4E7191941390073CF03 /* GSPEvent.m */; };
-		E397A4F6191941390073CF03 /* GSPMonthView.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4E9191941390073CF03 /* GSPMonthView.m */; };
 		E397A4F7191941390073CF03 /* GSPMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4EB191941390073CF03 /* GSPMonthCell.m */; };
 		E397A4F8191941390073CF03 /* GSPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4ED191941390073CF03 /* GSPAppDelegate.m */; };
 		E397A4F9191941390073CF03 /* GSPDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4EF191941390073CF03 /* GSPDayViewController.m */; };
@@ -31,6 +30,7 @@
 		E397A504191941440073CF03 /* UINavigationController+FrameLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A4FE191941440073CF03 /* UINavigationController+FrameLocations.m */; };
 		E397A505191941440073CF03 /* NSDate+LastAndFirst.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A500191941440073CF03 /* NSDate+LastAndFirst.m */; };
 		E397A506191941440073CF03 /* Gradient.m in Sources */ = {isa = PBXBuildFile; fileRef = E397A502191941440073CF03 /* Gradient.m */; };
+		E397EAB8191D7EAA009237DA /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E397EAB7191D7EAA009237DA /* CircleView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,8 +66,6 @@
 		E397A4E5191941390073CF03 /* GSPCustomTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSPCustomTitleView.m; sourceTree = "<group>"; };
 		E397A4E6191941390073CF03 /* GSPEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSPEvent.h; sourceTree = "<group>"; };
 		E397A4E7191941390073CF03 /* GSPEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSPEvent.m; sourceTree = "<group>"; };
-		E397A4E8191941390073CF03 /* GSPMonthView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSPMonthView.h; sourceTree = "<group>"; };
-		E397A4E9191941390073CF03 /* GSPMonthView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSPMonthView.m; sourceTree = "<group>"; };
 		E397A4EA191941390073CF03 /* GSPMonthCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSPMonthCell.h; sourceTree = "<group>"; };
 		E397A4EB191941390073CF03 /* GSPMonthCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSPMonthCell.m; sourceTree = "<group>"; };
 		E397A4EC191941390073CF03 /* GSPAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSPAppDelegate.h; sourceTree = "<group>"; };
@@ -84,6 +82,8 @@
 		E397A500191941440073CF03 /* NSDate+LastAndFirst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+LastAndFirst.m"; sourceTree = "<group>"; };
 		E397A501191941440073CF03 /* Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gradient.h; sourceTree = "<group>"; };
 		E397A502191941440073CF03 /* Gradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gradient.m; sourceTree = "<group>"; };
+		E397EAB6191D7EAA009237DA /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
+		E397EAB7191D7EAA009237DA /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,8 +151,6 @@
 				E397A4E5191941390073CF03 /* GSPCustomTitleView.m */,
 				E397A4E6191941390073CF03 /* GSPEvent.h */,
 				E397A4E7191941390073CF03 /* GSPEvent.m */,
-				E397A4E8191941390073CF03 /* GSPMonthView.h */,
-				E397A4E9191941390073CF03 /* GSPMonthView.m */,
 				E397A4EA191941390073CF03 /* GSPMonthCell.h */,
 				E397A4EB191941390073CF03 /* GSPMonthCell.m */,
 				E397A4EC191941390073CF03 /* GSPAppDelegate.h */,
@@ -170,6 +168,8 @@
 		E397A4AF19193E120073CF03 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E397EAB6191D7EAA009237DA /* CircleView.h */,
+				E397EAB7191D7EAA009237DA /* CircleView.m */,
 				E397A4FB191941440073CF03 /* UIColor+HexString.h */,
 				E397A4FC191941440073CF03 /* UIColor+HexString.m */,
 				E397A4FD191941440073CF03 /* UINavigationController+FrameLocations.h */,
@@ -307,10 +307,10 @@
 				E397A504191941440073CF03 /* UINavigationController+FrameLocations.m in Sources */,
 				E397A4F8191941390073CF03 /* GSPAppDelegate.m in Sources */,
 				E397A4F5191941390073CF03 /* GSPEvent.m in Sources */,
-				E397A4F6191941390073CF03 /* GSPMonthView.m in Sources */,
 				E397A505191941440073CF03 /* NSDate+LastAndFirst.m in Sources */,
 				E397A4B519193E120073CF03 /* main.m in Sources */,
 				E397A4F7191941390073CF03 /* GSPMonthCell.m in Sources */,
+				E397EAB8191D7EAA009237DA /* CircleView.m in Sources */,
 				E397A4F9191941390073CF03 /* GSPDayViewController.m in Sources */,
 				E397A4F2191941390073CF03 /* GSPViewController.m in Sources */,
 				E397A503191941440073CF03 /* UIColor+HexString.m in Sources */,
@@ -512,6 +512,7 @@
 				E397A4DC19193E130073CF03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E397A4DD19193E130073CF03 /* Build configuration list for PBXNativeTarget "GSPAppTests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +521,7 @@
 				E397A4DF19193E130073CF03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

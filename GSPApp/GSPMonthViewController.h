@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GSPMonthView.h"
 
 #define FORM_PADDING 10
 #define FORM_HEIGHT 30
@@ -15,7 +14,7 @@
 #define GREYED_OUT -1
 
 @interface GSPMonthViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
-@property (strong, nonatomic) GSPMonthView *MonthView;
+@property (strong, nonatomic) UICollectionView *MonthView;
 
 // Event related properties
 @property (strong, nonatomic) NSMutableDictionary *events; //Map NSDate -> NSArray of GSPEvents

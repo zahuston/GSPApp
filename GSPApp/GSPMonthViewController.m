@@ -14,6 +14,8 @@
 #import "GSPCustomTitleView.h"
 #import "Gradient.h"
 #import "UINavigationController+FrameLocations.h"
+#import "UIColor+HexString.h"
+#include "NSDate+LastAndFirst.h"
 
 #define DAYS_PER_WEEK 7
 
@@ -28,27 +30,32 @@
 
 @implementation GSPMonthViewController
 
+#pragma mark - Initial Setup
+
 -(id)init
 {
     if (self = [super init])
     {
-
-        
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.minimumInteritemSpacing = 5;
         layout.minimumLineSpacing = 5;
         layout.itemSize = CGSizeMake(50, 50);
-        self.MonthView = [[GSPMonthView alloc] initWithFrame:CGRectMake(10, 10, screenRect.size.width - 20, screenRect.size.height) collectionViewLayout:layout];
+        self.MonthView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 10, screenRect.size.width - 20, screenRect.size.height) collectionViewLayout:layout];
+        
         self.MonthView.dataSource = self;
         self.MonthView.delegate = self;
-        self.MonthView.collectionViewLayout = layout;
-        self.view.backgroundColor = [UIColor colorWithRed: .85f green:.85f blue:.85f alpha:1.0f];
+        
+
+//        self.view.backgroundColor = [UIColor colorWithRed: .85f green:.85f blue:.85f alpha:1.0f];
+        self.view.backgroundColor = [UIColor colorFromHexString:@"4b86b9"];
+        self.MonthView.backgroundColor = self.view.backgroundColor;
+        
         [self.MonthView registerClass:[GSPMonthCell class] forCellWithReuseIdentifier:@"DayCell"];
-        
-        
         [self.view addSubview:self.MonthView];
+        
+        
 
     }
     return self;
@@ -64,7 +71,9 @@
     titleLabel.text = self.titleFormattedString;
     [self.navigationItem setTitleView:titleLabel];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(setupEvent)];
-    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 -(void)formatCalendar
@@ -113,7 +122,6 @@
     return _events;
 }
 
-
 /*
  Calculates the number of rows that should appear in the calendar. Assuming the gregorian calendar
  Throughout this project. Could possible be reworked in the future to adapt for others
@@ -124,6 +132,11 @@
         _numRows =  (self.daysInMonth.length / DAYS_PER_WEEK) + (self.daysInMonth.length % DAYS_PER_WEEK != 0);
     }
     return _numRows;
+}
+
+-(CGRect)getScreenBounds
+{
+    return [[UIScreen mainScreen] bounds];
 }
 
 -(int)adjustCollectionViewIndexToDate:(int)collectionViewIndex
@@ -149,6 +162,7 @@
     return day + [self.offset intValue];
 }
 
+#pragma mark - Event Presentation
 /*
     Presents a view which allows the user to enter information about an event.
     Actually entry of event left to control on the view itself
@@ -208,16 +222,6 @@
     [self.eventName resignFirstResponder];
     [self.eventDescription resignFirstResponder];
     [self.eventLocation resignFirstResponder];
-}
-                                                                                                                                  
--(void)returnToCalendar
-{
-    NSLog(@"return to calendar called");
-}
-
--(CGRect)getScreenBounds
-{
-    return [[UIScreen mainScreen] bounds];
 }
 
 /*
@@ -297,6 +301,24 @@
 }
 
 /*
+ Gets the number of events currently associated with a date
+ Will start at 0 initially, hoping to load these from a server
+ At some point down the road
+ */
+-(int)findNumEvents:(int)day
+{
+    if (day == GREYED_OUT) {
+        return 0;
+    }
+    unsigned units = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSDateComponents *startComponents = [self.relevantCalendar components:units  fromDate:[self.relevantDate startOfMonth]];
+    [startComponents setDay:day];
+    NSDate *currentDay = [self.relevantCalendar dateFromComponents:startComponents];
+    
+    return [self eventCountForDate:currentDay];
+}
+
+/*
  * Retreives a cell which corresponds to the date passed in
  */
 -(GSPMonthCell *)getCellForDate:(NSDate*)date
@@ -325,28 +347,18 @@
 {
     NSLog(@"Dequeing cell at index location: %d", indexPath.row);
     GSPMonthCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DayCell" forIndexPath:indexPath];
+    
     cell.dayOfMonth = [self adjustCollectionViewIndexToDate:indexPath.row];
+    
+    // Add tap gesture recognizer that will be used to bring up day view
+    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(presentDayView:)];
+//    cell
+    
     [cell initializeCellContentsFor:cell.dayOfMonth andWith:[self findNumEvents:cell.dayOfMonth]];
     return cell;
 }
 
-/*
-     Gets the number of events currently associated with a date
-     Will start at 0 initially, hoping to load these from a server
-     At some point down the road
- */
--(int)findNumEvents:(int)day
-{
-    if (day == GREYED_OUT) {
-        return 0;
-    }
-    unsigned units = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
-    NSDateComponents *startComponents = [self.relevantCalendar components:units  fromDate:[self.relevantDate startOfMonth]];
-    [startComponents setDay:day];
-    NSDate *currentDay = [self.relevantCalendar dateFromComponents:startComponents];
-    
-    return [self eventCountForDate:currentDay];
-}
+
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
