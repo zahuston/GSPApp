@@ -30,6 +30,8 @@
 
 // Color defaults to white
 -(UIColor *)color {
+    // These colors need to be handled differently for CGColorGetComponents
+    // to function properly
     if ([_color isEqual:[UIColor whiteColor]]) {
         _color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     }

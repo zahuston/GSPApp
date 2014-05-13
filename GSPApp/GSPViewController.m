@@ -18,14 +18,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.monthView = [[GSPMonthViewController alloc] init];
+    self.monthVC = [[GSPMonthViewController alloc] init];
     self.title = @"Nav Controller";
-    [self pushViewController:self.monthView animated:NO];
+    [self addChildViewController:self.monthVC];
+    [self pushViewController:self.monthVC animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    NSLog(@"Received memory warning");
     // Dispose of any resources that can be recreated.
 }
 

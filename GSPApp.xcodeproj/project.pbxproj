@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E36976791922A71D0041215C /* GSPDayEventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E36976781922A71D0041215C /* GSPDayEventCell.m */; };
+		E369767C1922B3F00041215C /* NSCalendar+StringNames.m in Sources */ = {isa = PBXBuildFile; fileRef = E369767B1922B3F00041215C /* NSCalendar+StringNames.m */; };
 		E397A4A919193E120073CF03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E397A4A819193E120073CF03 /* Foundation.framework */; };
 		E397A4AB19193E120073CF03 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E397A4AA19193E120073CF03 /* CoreGraphics.framework */; };
 		E397A4AD19193E120073CF03 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E397A4AC19193E120073CF03 /* UIKit.framework */; };
@@ -44,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E36976771922A71D0041215C /* GSPDayEventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSPDayEventCell.h; sourceTree = "<group>"; };
+		E36976781922A71D0041215C /* GSPDayEventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSPDayEventCell.m; sourceTree = "<group>"; };
+		E369767A1922B3F00041215C /* NSCalendar+StringNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCalendar+StringNames.h"; sourceTree = "<group>"; };
+		E369767B1922B3F00041215C /* NSCalendar+StringNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCalendar+StringNames.m"; sourceTree = "<group>"; };
 		E397A4A519193E120073CF03 /* GSPApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GSPApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E397A4A819193E120073CF03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E397A4AA19193E120073CF03 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -157,6 +163,8 @@
 				E397A4ED191941390073CF03 /* GSPAppDelegate.m */,
 				E397A4EE191941390073CF03 /* GSPDayViewController.h */,
 				E397A4EF191941390073CF03 /* GSPDayViewController.m */,
+				E36976771922A71D0041215C /* GSPDayEventCell.h */,
+				E36976781922A71D0041215C /* GSPDayEventCell.m */,
 				E397A4F0191941390073CF03 /* GSPDayView.h */,
 				E397A4F1191941390073CF03 /* GSPDayView.m */,
 				E397A4C319193E120073CF03 /* Images.xcassets */,
@@ -170,6 +178,8 @@
 			children = (
 				E397EAB6191D7EAA009237DA /* CircleView.h */,
 				E397EAB7191D7EAA009237DA /* CircleView.m */,
+				E369767A1922B3F00041215C /* NSCalendar+StringNames.h */,
+				E369767B1922B3F00041215C /* NSCalendar+StringNames.m */,
 				E397A4FB191941440073CF03 /* UIColor+HexString.h */,
 				E397A4FC191941440073CF03 /* UIColor+HexString.m */,
 				E397A4FD191941440073CF03 /* UINavigationController+FrameLocations.h */,
@@ -300,9 +310,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E36976791922A71D0041215C /* GSPDayEventCell.m in Sources */,
 				E397A4F3191941390073CF03 /* GSPMonthViewController.m in Sources */,
 				E397A4F4191941390073CF03 /* GSPCustomTitleView.m in Sources */,
 				E397A4FA191941390073CF03 /* GSPDayView.m in Sources */,
+				E369767C1922B3F00041215C /* NSCalendar+StringNames.m in Sources */,
 				E397A506191941440073CF03 /* Gradient.m in Sources */,
 				E397A504191941440073CF03 /* UINavigationController+FrameLocations.m in Sources */,
 				E397A4F8191941390073CF03 /* GSPAppDelegate.m in Sources */,

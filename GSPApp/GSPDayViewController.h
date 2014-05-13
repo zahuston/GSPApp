@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GSPDayViewController : UIViewController
+@interface GSPDayViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+
+-(id)initWithEvents:(NSMutableArray *)events andDate:(NSDate *)date;
 
 @end

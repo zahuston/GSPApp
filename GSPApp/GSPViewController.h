@@ -11,6 +11,6 @@
 
 @interface GSPViewController : UINavigationController
 
-@property UIViewController *monthView;
+@property UIViewController *monthVC;
 
 @end

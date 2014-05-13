@@ -11,8 +11,11 @@
 #import "GSPEvent.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GSPViewController.h"
-#import "GSPCustomTitleView.h"
+#import "GSPDayViewController.h"
+//#import "GSPCustomTitleView.h"
+#import "NSCalendar+StringNames.h" // Don't want to touch date formatter..
 #import "Gradient.h"
+
 #import "UINavigationController+FrameLocations.h"
 #import "UIColor+HexString.h"
 #include "NSDate+LastAndFirst.h"
@@ -24,7 +27,6 @@
 @property (nonatomic) NSNumber *offset;
 @property BOOL formatted;
 @property (nonatomic) NSRange daysInMonth;
-@property (strong, nonatomic) NSArray *monthNames; // I don't want to touch date formatter
 
 @end
 
@@ -87,7 +89,7 @@
 //    self.MonthView.collectionViewLayout = layout;
     self.MonthView.backgroundColor = [UIColor colorWithRed: .85f green:.85f blue:.85f alpha:1.0f];
     
-    self.titleFormattedString = [NSString stringWithFormat:@"%@ %i", self.monthNames[self.relevantDateComponents.month - 1], self.relevantDateComponents.year];
+    self.titleFormattedString = [NSString stringWithFormat:@"%@ %i", [NSCalendar monthNames][self.relevantDateComponents.month - 1], self.relevantDateComponents.year];
 }
 
 -(UICollectionViewLayout *)generateLayout
@@ -104,14 +106,14 @@
     return _daysInMonth;
 }
 
--(NSArray *)monthNames
-{
-    if (!_monthNames)
-    {
-        _monthNames = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
-    }
-    return _monthNames;
-}
+//-(NSArray *)monthNames
+//{
+//    if (!_monthNames)
+//    {
+//        _monthNames = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
+//    }
+//    return _monthNames;
+//}
 
 -(NSMutableDictionary *)events
 {
@@ -264,22 +266,25 @@
     [self.navigationController popViewControllerAnimated:NO];
 }
 
+-(NSMutableArray *)getEventsForDate:(NSDate *)date
+{
+    return [self.events objectForKey:[date standardizedDate]];
+}
+
 /*
     Takes care of adding a newly created event into the events dictionary
     Will be used both as a reference, and to create the UI for the calendar
  */
 -(void)mapEvent:(GSPEvent *)event
 {
-    NSDate *standardizedDate = [event.date standardizedDate];
-    
-    // Try to find an array if it existed previously.
-    NSMutableArray *eventArr = [self.events objectForKey:standardizedDate];
+    // Look up array of events
+    NSMutableArray *eventArr = [self getEventsForDate:event.date];
     
     if (!eventArr) {
         eventArr = [[NSMutableArray alloc] init];
     }
     [eventArr addObject:event];
-    [self.events setObject:eventArr forKey:standardizedDate];
+    [self.events setObject:eventArr forKey:[event.date standardizedDate]];
     
 }
 
@@ -287,16 +292,13 @@
  * Takes in a date and returns the number of events on that day
  */
 -(int)eventCountForDate:(NSDate *)date {
-    // Standardize date so key is always the same for a given day
-    NSDate *standardizedDate = [date standardizedDate];
-    
-    // Try to find an array if it existed previously.
-    NSMutableArray *eventArr = [self.events objectForKey:standardizedDate];
+
+    NSMutableArray *eventArr = [self getEventsForDate:date];
     
     if (!eventArr) {
         return 0;
     }
-    NSLog(@"%@ has %d events", date, [eventArr count]);
+//    NSLog(@"%@ has %d events", date, [eventArr count]);
     return [eventArr count];
 }
 
@@ -345,20 +347,14 @@
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Dequeing cell at index location: %d", indexPath.row);
+//    NSLog(@"Dequeing cell at index location: %d", indexPath.row);
     GSPMonthCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DayCell" forIndexPath:indexPath];
     
     cell.dayOfMonth = [self adjustCollectionViewIndexToDate:indexPath.row];
     
-    // Add tap gesture recognizer that will be used to bring up day view
-    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(presentDayView:)];
-//    cell
-    
     [cell initializeCellContentsFor:cell.dayOfMonth andWith:[self findNumEvents:cell.dayOfMonth]];
     return cell;
 }
-
-
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -369,6 +365,27 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Delegate Methods
+
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    GSPMonthCell *cell = (GSPMonthCell *)[self collectionView:self.MonthView cellForItemAtIndexPath:indexPath];
+    
+    if (cell.dayOfMonth >= 0) {
+        // Translate day into date
+        unsigned units = NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit;
+        NSDateComponents *selectedDay = [self.relevantCalendar components:units fromDate:self.relevantDate];
+        [selectedDay setDay:cell.dayOfMonth];
+        
+        
+        GSPDayViewController *dayVC = [[GSPDayViewController alloc] initWithEvents:[self getEventsForDate:selectedDay.date] andDate:selectedDay.date];
+        
+        [self addChildViewController:dayVC];
+        [self.navigationController pushViewController:dayVC animated:YES];
+        
+    }
 }
 
 @end
