@@ -9,6 +9,8 @@
 #import "GSPDayViewController.h"
 #import "NSCalendar+StringNames.h"
 #import "GSPDayEventCell.h"
+#import "GSPDayView.h"
+#import "GSPEvent.h"
 
 #define HOUR_HEIGHT 65
 #define HOURS_PER_DAY 24
@@ -21,6 +23,9 @@
 
 @property (strong, nonatomic) NSString *titleString;
 
+@property (strong, nonatomic) UIScrollView *baseView;
+@property (strong, nonatomic) GSPDayView *dayView;
+
 @end
 
 @implementation GSPDayViewController
@@ -28,21 +33,14 @@
 
 -(id)initWithEvents:(NSMutableArray *)events andDateComponents:(NSDateComponents *)dateComps
 {
-    if (self = [super initWithStyle:UITableViewStylePlain]) {
+    if (self = [super init]) {
         self.events = events;
         self.dayComp = dateComps;
+
         //TODO: Check for daylight savings time
     }
     return self;
 }
-
-//-(NSDateComponents *)dayComp
-//{
-//    if (!_dayComp) {
-//        _dayComp = [self.calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit fromDate:self.day];
-//    }
-//    return _dayComp;
-//}
 
 -(NSCalendar *)calendar
 {
@@ -64,15 +62,37 @@
     return _titleString;
 }
 
+-(GSPDayView *)dayView
+{
+    if (!_dayView) {
+        _dayView = [[GSPDayView alloc] initWithFrame:CGRectMake(0, 0, [self getScreenBounds].size.width, HOUR_HEIGHT * HOURS_PER_DAY) andHourHeight:HOUR_HEIGHT];
+    }
+    return _dayView;
+}
+
+-(UIScrollView *)baseView
+{
+    if (!_baseView)
+    {
+        _baseView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    }
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.tableView.frame = CGRectMake(0, 0, [self getScreenBounds].size.width, HOUR_HEIGHT * HOURS_PER_DAY);
+    self.view.frame = CGRectMake(0, 0, [self getScreenBounds].size.width, HOUR_HEIGHT * HOURS_PER_DAY);
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.tableView setDelegate:self];
-    [self.tableView setDataSource:self];
-    [self.tableView registerClass:[GSPDayEventCell class] forCellReuseIdentifier:@"GSPDayTable"];
+    
+    
+    
+    [self.view addSubview:self.dayView];
+    
+    for (GSPEvent*event in self.events) {
+        NSLog(@"Need to do something with events, %@", event);
+        
+    }
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
     titleLabel.textColor = [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
@@ -93,24 +113,5 @@
     return [[UIScreen mainScreen] bounds];
 }
 
-#pragma mark - Data Source
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GSPDayTable"];
-    return cell;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return HOURS_PER_DAY;
-}
-
-#pragma mark - Delegate
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return HOUR_HEIGHT;
-}
 
 @end

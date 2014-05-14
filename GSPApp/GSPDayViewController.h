@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GSPDayViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+@interface GSPDayViewController : UIViewController <UIScrollViewDelegate>
 
 -(id)initWithEvents:(NSMutableArray *)events andDateComponents:(NSDateComponents *)dateComps;
 
