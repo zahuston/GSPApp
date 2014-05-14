@@ -369,18 +369,18 @@
 
 #pragma mark - Delegate Methods
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GSPMonthCell *cell = (GSPMonthCell *)[self collectionView:self.MonthView cellForItemAtIndexPath:indexPath];
     
     if (cell.dayOfMonth >= 0) {
         // Translate day into date
-        unsigned units = NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit;
+        unsigned units = NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit;
         NSDateComponents *selectedDay = [self.relevantCalendar components:units fromDate:self.relevantDate];
+        selectedDay.weekday = indexPath.row % 7; // Hackish, maybe without the ish.
         [selectedDay setDay:cell.dayOfMonth];
         
-        
-        GSPDayViewController *dayVC = [[GSPDayViewController alloc] initWithEvents:[self getEventsForDate:selectedDay.date] andDate:selectedDay.date];
+        GSPDayViewController *dayVC = [[GSPDayViewController alloc] initWithEvents:[self getEventsForDate:selectedDay.date] andDateComponents:selectedDay];
         
         [self addChildViewController:dayVC];
         [self.navigationController pushViewController:dayVC animated:YES];

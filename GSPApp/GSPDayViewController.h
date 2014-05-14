@@ -10,6 +10,6 @@
 
 @interface GSPDayViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
--(id)initWithEvents:(NSMutableArray *)events andDate:(NSDate *)date;
+-(id)initWithEvents:(NSMutableArray *)events andDateComponents:(NSDateComponents *)dateComps;
 
 @end
