@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GSPDayView : UIScrollView
+@interface GSPDayView : UIView
 
 - (id)initWithFrame:(CGRect)frame andHourHeight:(CGFloat)hourHeight;
 

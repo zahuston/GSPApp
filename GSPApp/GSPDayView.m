@@ -22,6 +22,7 @@
     if (self = [super initWithFrame:frame]) {
         self.hourHeight = hourHeight;
         self.backgroundColor = [UIColor clearColor];
+
         // Initialization code
     }
     return self;    

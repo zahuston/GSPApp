@@ -65,6 +65,7 @@
 -(GSPDayView *)dayView
 {
     if (!_dayView) {
+//        _dayView = [[GSPDayView alloc] initWithFrame:self.view.frame andHourHeight:HOUR_HEIGHT];
         _dayView = [[GSPDayView alloc] initWithFrame:CGRectMake(0, 0, [self getScreenBounds].size.width, HOUR_HEIGHT * HOURS_PER_DAY) andHourHeight:HOUR_HEIGHT];
     }
     return _dayView;
@@ -72,22 +73,26 @@
 
 -(UIScrollView *)baseView
 {
-    if (!_baseView)
-    {
+    if (!_baseView) {
         _baseView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     }
+    return _baseView;
 }
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.view.frame = CGRectMake(0, 0, [self getScreenBounds].size.width, HOUR_HEIGHT * HOURS_PER_DAY);
+    self.view.frame = [self getScreenBounds];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
-    
-    [self.view addSubview:self.dayView];
+    self.baseView.contentSize = self.dayView.frame.size;
+
+    [self.baseView addSubview:self.dayView];
+    [self.view addSubview:self.baseView];
+
+//    NSLog(@"Content size: %@", NSStringFromCGSize(self.baseView.contentSize));
+//    NSLog(@"Day view frame: %@", NSStringFromCGRect(self.dayView.frame));
     
     for (GSPEvent*event in self.events) {
         NSLog(@"Need to do something with events, %@", event);
