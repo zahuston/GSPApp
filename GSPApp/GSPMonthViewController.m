@@ -28,6 +28,8 @@
 @property BOOL formatted;
 @property (nonatomic) NSRange daysInMonth;
 
+@property (strong, nonatomic) UILabel *eventHoursLabel;
+
 @end
 
 @implementation GSPMonthViewController
@@ -104,15 +106,6 @@
                                               forDate:self.relevantDate];
     return _daysInMonth;
 }
-
-//-(NSArray *)monthNames
-//{
-//    if (!_monthNames)
-//    {
-//        _monthNames = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
-//    }
-//    return _monthNames;
-//}
 
 -(NSMutableDictionary *)events
 {
@@ -199,7 +192,16 @@
     self.eventDescription = [self createTextField:CGRectMake(FORM_PADDING,  initialLocation + ((FORM_PADDING + FORM_HEIGHT) * index++), fieldWidth, FORM_HEIGHT)           withPlaceholder:@"Enter event description"];
     
     self.eventLocation = [self createTextField:CGRectMake(FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT) * index++)  , fieldWidth, FORM_HEIGHT) withPlaceholder:@"Enter event location"];
+
+    self.eventHours = [[UISlider alloc] initWithFrame:CGRectMake(FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT * index++)) + FORM_PADDING, fieldWidth - 40 , FORM_HEIGHT)];
+    self.eventHours.minimumValue = 0;
+    self.eventHours.maximumValue = 24;
+    self.eventHours.continuous = NO;
+    [self.eventHours addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
     
+    self.eventHoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(fieldWidth - 70 + FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT * index)), 70, FORM_HEIGHT)];
+    [eventFormController.view addSubview:self.eventHoursLabel];
+    self.eventHoursLabel.text = @"0";
     
     self.eventDate = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, initialLocation + ((FORM_PADDING + FORM_HEIGHT) * index++)  , fieldWidth, FORM_HEIGHT)];
     
@@ -211,10 +213,15 @@
     [eventFormController.view addSubview:self.eventName];
     [eventFormController.view addSubview:self.eventDescription];
     [eventFormController.view addSubview:self.eventLocation];
+    [eventFormController.view addSubview:self.eventHours];
     [eventFormController.view addSubview:self.eventDate];
     [eventFormController.view addSubview:enterEvent];
 }
 
+-(void)sliderChanged:(UISlider *)slider
+{
+    self.eventHoursLabel.text = [NSString stringWithFormat:@"%d", (int)self.eventHours.value];
+}
 /*
     Resigns first responder from all the possible text views. Should be a more elegant way to do it
     But this itself isn't particularly inefficient

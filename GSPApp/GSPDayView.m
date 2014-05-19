@@ -34,8 +34,6 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-
-    
     int hour = 1;
     for (int startLocation = 0; startLocation <= self.frame.size.height; startLocation += self.hourHeight)
     {

@@ -21,8 +21,8 @@
 @property (strong, nonatomic) UITextField *eventName;
 @property (strong, nonatomic) UITextField *eventDescription;
 @property (strong, nonatomic) UITextField *eventLocation;
-@property (strong, nonatomic) UISlider *hours;
-@property (strong, nonatomic) UISlider *minutes;
+@property (strong, nonatomic) UISlider *eventHours;
+@property (strong, nonatomic) UISlider *eventMinutes;
 @property (strong, nonatomic) UIDatePicker *eventDate;
 @property (strong, nonatomic) UIViewController *eventForm;
 
