@@ -14,6 +14,7 @@
 
 #define HOUR_HEIGHT 65
 #define HOURS_PER_DAY 24
+#define MINUTES_PER_HOUR 60
 
 @interface GSPDayViewController ()
 
@@ -94,9 +95,9 @@
 //    NSLog(@"Content size: %@", NSStringFromCGSize(self.baseView.contentSize));
 //    NSLog(@"Day view frame: %@", NSStringFromCGRect(self.dayView.frame));
     
-    for (GSPEvent*event in self.events) {
+    for (GSPEvent *event in self.events) {
         NSLog(@"Need to do something with events, %@", event);
-        
+        [self addEventIndicator:event];
     }
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
@@ -105,6 +106,17 @@
     titleLabel.text = self.titleString;
 
     [self.navigationItem setTitleView:titleLabel];
+}
+
+-(void)addEventIndicator:(GSPEvent *)event
+{
+    NSDateComponents *comps = [self.calendar components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:event.date];
+    float hourPerMinute = 1/MINUTES_PER_HOUR;
+    CGRect eventFrame = CGRectMake(0, (comps.hour + (hourPerMinute * comps.minute)) * HOUR_HEIGHT, [self getScreenBounds].size.width, HOUR_HEIGHT * 1.5);
+    UIView *eventIndicator = [[UIView alloc] initWithFrame:eventFrame];
+    eventIndicator.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:.2];
+    NSLog(@"%@", NSStringFromCGRect(eventFrame));
+    [self.dayView addSubview:eventIndicator];
 }
 
 - (void)didReceiveMemoryWarning

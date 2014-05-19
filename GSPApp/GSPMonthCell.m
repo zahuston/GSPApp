@@ -92,7 +92,7 @@
     for (int i = 0; i < MIN(4, self.eventsCount); i++)
     {
         CGRect circleFrame = CGRectMake(startPoint, self.contentView.frame.size.height - 12, EVENT_INDICATOR_SIZE, EVENT_INDICATOR_SIZE);
-        NSLog(@"Circle frame: %@", NSStringFromCGRect(circleFrame));
+//        NSLog(@"Circle frame: %@", NSStringFromCGRect(circleFrame));
         CircleView *eventSquare = [[CircleView alloc] initWithFrame:CGRectMake(startPoint, self.contentView.frame.size.height - 12, EVENT_INDICATOR_SIZE, EVENT_INDICATOR_SIZE) andColor:[UIColor whiteColor]];
 //        eventSquare.clipsToBounds = YES;
 //        eventSquare.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.6];

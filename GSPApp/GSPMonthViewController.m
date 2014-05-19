@@ -48,7 +48,6 @@
         
         self.MonthView.dataSource = self;
         self.MonthView.delegate = self;
-        
 
 //        self.view.backgroundColor = [UIColor colorWithRed: .85f green:.85f blue:.85f alpha:1.0f];
         self.view.backgroundColor = [UIColor colorFromHexString:@"4b86b9"];
@@ -201,6 +200,7 @@
     
     self.eventLocation = [self createTextField:CGRectMake(FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT) * index++)  , fieldWidth, FORM_HEIGHT) withPlaceholder:@"Enter event location"];
     
+    
     self.eventDate = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, initialLocation + ((FORM_PADDING + FORM_HEIGHT) * index++)  , fieldWidth, FORM_HEIGHT)];
     
     UIButton *enterEvent = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -303,9 +303,9 @@
 }
 
 /*
- Gets the number of events currently associated with a date
- Will start at 0 initially, hoping to load these from a server
- At some point down the road
+    Gets the number of events currently associated with a date
+    Will start at 0 initially, hoping to load these from a server
+    At some point down the road
  */
 -(int)findNumEvents:(int)day
 {
@@ -361,11 +361,11 @@
     return CGSizeMake(38, 38);
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+//- (void)didReceiveMemoryWarning
+//{
+//    [super didReceiveMemoryWarning];
+//    // Dispose of any resources that can be recreated.
+//}
 
 #pragma mark - Delegate Methods
 
@@ -373,14 +373,16 @@
 {
     GSPMonthCell *cell = (GSPMonthCell *)[self collectionView:self.MonthView cellForItemAtIndexPath:indexPath];
     
-    if (cell.dayOfMonth >= 0) {
+    if (cell.dayOfMonth > 0) {
         // Translate day into date
         unsigned units = NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit;
         NSDateComponents *selectedDay = [self.relevantCalendar components:units fromDate:self.relevantDate];
         selectedDay.weekday = indexPath.row % 7; // Hackish, maybe without the ish.
         [selectedDay setDay:cell.dayOfMonth];
         
-        GSPDayViewController *dayVC = [[GSPDayViewController alloc] initWithEvents:[self getEventsForDate:selectedDay.date] andDateComponents:selectedDay];
+        NSDate *selectedDate = [self.relevantCalendar dateFromComponents:selectedDay];
+        
+        GSPDayViewController *dayVC = [[GSPDayViewController alloc] initWithEvents:[self getEventsForDate:selectedDate] andDateComponents:selectedDay];
         
         [self addChildViewController:dayVC];
         [self.navigationController pushViewController:dayVC animated:YES];

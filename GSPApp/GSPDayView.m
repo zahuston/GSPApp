@@ -6,7 +6,8 @@
 //  Copyright (c) 2013 Zach Huston. All rights reserved.
 //
 
-#define SIDE_PADDING 5
+//TODO: Leave this around for a bit for if I change my mind. Clear it out later
+#define SIDE_PADDING 0
 #import "GSPDayView.h"
 
 @interface GSPDayView()
@@ -33,21 +34,34 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGFloat red[4] = {1.0f, 0.0f, 0.0f, 1.0f};
-    CGContextSetStrokeColor(ctx, red);
-    CGContextSetLineWidth(ctx, 2.0);
+
     
+    int hour = 1;
     for (int startLocation = 0; startLocation <= self.frame.size.height; startLocation += self.hourHeight)
     {
+        
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        float red = 211.0/256.0;
+        float green = 211.0/256.0;
+        float blue = 211.0/256.0;
+        
+        CGFloat color[4] = {red, green, blue, 1.0f};
+        CGContextSetStrokeColor(ctx, color);
+        CGContextSetLineWidth(ctx, 1.0);
+        
         CGContextBeginPath(ctx);
         CGContextMoveToPoint(ctx, SIDE_PADDING, startLocation);
         CGContextAddLineToPoint(ctx, self.frame.size.width - SIDE_PADDING, startLocation);
         CGContextStrokePath(ctx);
+        
+        NSString *hourMark = [NSString stringWithFormat:@"%d", hour++];
+        [hourMark drawAtPoint:CGPointMake(SIDE_PADDING, startLocation + 3)
+               withAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:11.0]}];
     }
     
 
 }
+
 
 
 @end

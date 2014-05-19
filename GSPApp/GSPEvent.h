@@ -21,6 +21,7 @@ typedef enum event_types {
 @property (strong, nonatomic) NSString *description;
 @property (strong, nonatomic) NSDate   *date;
 @property (strong, nonatomic) UIColor  *eventColor;
+@property (strong, nonatomic) NSNumber *length;
 @property (nonatomic) eventTypes type;
 
 - (id) initWithTitle:(NSString *)title
