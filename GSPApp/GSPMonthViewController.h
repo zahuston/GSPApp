@@ -13,7 +13,7 @@
 
 #define GREYED_OUT -1
 
-@interface GSPMonthViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface GSPMonthViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UICollectionView *MonthView;
 
 // Event related properties
@@ -21,7 +21,7 @@
 @property (strong, nonatomic) UITextField *eventName;
 @property (strong, nonatomic) UITextField *eventDescription;
 @property (strong, nonatomic) UITextField *eventLocation;
-@property (strong, nonatomic) UISlider *eventHours;
+//@property (strong, nonatomic) UISlider *eventHours;
 @property (strong, nonatomic) UISlider *eventMinutes;
 @property (strong, nonatomic) UIDatePicker *eventDate;
 @property (strong, nonatomic) UIViewController *eventForm;

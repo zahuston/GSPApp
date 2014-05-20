@@ -193,34 +193,42 @@
     
     self.eventLocation = [self createTextField:CGRectMake(FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT) * index++)  , fieldWidth, FORM_HEIGHT) withPlaceholder:@"Enter event location"];
 
-    self.eventHours = [[UISlider alloc] initWithFrame:CGRectMake(FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT * index++)) + FORM_PADDING, fieldWidth - 40 , FORM_HEIGHT)];
-    self.eventHours.minimumValue = 0;
-    self.eventHours.maximumValue = 24;
-    self.eventHours.continuous = NO;
-    [self.eventHours addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
+    self.eventMinutes = [[UISlider alloc] initWithFrame:CGRectMake(FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT * index++)) + FORM_PADDING, fieldWidth - 40 , FORM_HEIGHT)];
     
     self.eventHoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(fieldWidth - 70 + FORM_PADDING, initialLocation + ((FORM_PADDING + FORM_HEIGHT * index)), 70, FORM_HEIGHT)];
-    [eventFormController.view addSubview:self.eventHoursLabel];
-    self.eventHoursLabel.text = @"0";
+    
+    [self setupSlider];
     
     self.eventDate = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, initialLocation + ((FORM_PADDING + FORM_HEIGHT) * index++)  , fieldWidth, FORM_HEIGHT)];
     
     UIButton *enterEvent = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     enterEvent.frame = CGRectMake(FORM_PADDING, FORM_PADDING + self.eventDate.frame.origin.y + self.eventDate.frame.size.height, fieldWidth, 30);
     [enterEvent setTitle:@"Enter Event" forState:UIControlStateNormal];
-    [enterEvent addTarget:self action:@selector(enterEvent) forControlEvents:UIControlEventTouchUpInside];
+    [enterEvent addTarget:self action:@selector(enterEvent) forControlEvents:UIControlEventTouchUpInside | UIControlEventValueChanged];
 
     [eventFormController.view addSubview:self.eventName];
     [eventFormController.view addSubview:self.eventDescription];
     [eventFormController.view addSubview:self.eventLocation];
-    [eventFormController.view addSubview:self.eventHours];
+    [eventFormController.view addSubview:self.eventMinutes];
+    [eventFormController.view addSubview:self.eventHoursLabel];
     [eventFormController.view addSubview:self.eventDate];
     [eventFormController.view addSubview:enterEvent];
 }
 
+-(void)setupSlider
+{
+    self.eventMinutes.minimumValue = 0;
+    self.eventMinutes.maximumValue = 360;
+    self.eventMinutes.continuous = NO;
+    
+    [self.eventMinutes addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+    self.eventHoursLabel.text = @"0";
+}
+
 -(void)sliderChanged:(UISlider *)slider
 {
-    self.eventHoursLabel.text = [NSString stringWithFormat:@"%d", (int)self.eventHours.value];
+    NSLog(@"Called");
+    self.eventHoursLabel.text = [NSString stringWithFormat:@"%d", (int)self.eventMinutes.value];
 }
 /*
     Resigns first responder from all the possible text views. Should be a more elegant way to do it
@@ -253,7 +261,8 @@
                                           Description:self.eventDescription.text
                                                  Date:self.eventDate.date
                                                 Color:[UIColor blueColor]
-                                               OfType:Informal];
+                                               OfType:Informal
+                                               Length:[[NSNumber alloc] initWithFloat:self.eventMinutes.value]];
     
     [self mapEvent:event];
     
@@ -292,7 +301,6 @@
     }
     [eventArr addObject:event];
     [self.events setObject:eventArr forKey:[event.date standardizedDate]];
-    
 }
 
 /*
@@ -340,7 +348,7 @@
     return (GSPMonthCell *)[self collectionView:self.MonthView cellForItemAtIndexPath:cellPath];
 }
 
-#pragma mark - Data source
+#pragma mark - Collection View Data source
 
 /*
      Returns the number of rows that should be present in collection view (i.e. num relevant weeks)
@@ -374,7 +382,7 @@
 //    // Dispose of any resources that can be recreated.
 //}
 
-#pragma mark - Delegate Methods
+#pragma mark - Collection View Delegate Methods
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -396,5 +404,11 @@
         
     }
 }
+
+#pragma mark - Table View Datasource Methods
+
+#pragma mark - Table View Delegate Methods
+
+
 
 @end

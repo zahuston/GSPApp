@@ -28,6 +28,7 @@ typedef enum event_types {
          Description:(NSString *)desc
                 Date:(NSDate *)date
                Color:(UIColor *)color
-              OfType:(eventTypes)type;
+              OfType:(eventTypes)type
+              Length:(NSNumber *)length;
 
 @end

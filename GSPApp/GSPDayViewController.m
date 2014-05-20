@@ -112,10 +112,11 @@
 {
     NSDateComponents *comps = [self.calendar components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:event.date];
     float hourPerMinute = 1/MINUTES_PER_HOUR;
-    CGRect eventFrame = CGRectMake(0, (comps.hour + (hourPerMinute * comps.minute)) * HOUR_HEIGHT, [self getScreenBounds].size.width, HOUR_HEIGHT * 1.5);
+    NSLog(@"%f", HOUR_HEIGHT * [event.length floatValue]);
+    CGRect eventFrame = CGRectMake(0, (comps.hour + (hourPerMinute * comps.minute)) * HOUR_HEIGHT, [self getScreenBounds].size.width, HOUR_HEIGHT * [event.length floatValue]);
     UIView *eventIndicator = [[UIView alloc] initWithFrame:eventFrame];
     eventIndicator.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:.2];
-    NSLog(@"%@", NSStringFromCGRect(eventFrame));
+//    NSLog(@"%@", NSStringFromCGRect(eventFrame));
     [self.dayView addSubview:eventIndicator];
 }
 
